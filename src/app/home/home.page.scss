@@ -1,0 +1,66 @@
+ion-content{
+    #areaMensajes{
+        background:rgb(243, 243, 243)!important;
+        min-height:85vh;
+        height:auto;
+    }
+    ion-card{
+        background: #fff!important;
+    }
+}
+.message{
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+}
+
+.other-message{
+    background: var(--ion-color-tertiary);
+    color:#fff;
+}
+
+.my-message{
+    background: var(--ion-color-secondary);
+    color:#fff;
+}
+
+.time{
+    color:#dfdfdf;
+    float:right;
+    font-size:small;
+}
+.msg-btn{
+    --padding-start:: .5em;
+    --padding-end: .5em;
+}
+.message-input{
+    width: 100%;
+    /* border: 1px solid var(--ion-color-medium); */
+    border-radius: 10px;
+    background: #fff;
+    resize: none;
+    padding-left:10px;
+    padding-right:10px;
+}
+#positionFixed{
+    position: fixed!important;
+    left: 58%;
+}
+.mamas{
+    color:var(--ion-color-primary);
+    text-align: center;
+}
+/* .tituloDatos{
+    color:var(--ion-color-primary);
+    text-align: center;
+} */
+/* .tituloNotas{
+    color:var(--ion-color-primary);
+    text-align: center;
+} */
+mat-expansion-panel-header{
+    border:1px solid aquamarine;
+    background:aliceblue;
+}
+
