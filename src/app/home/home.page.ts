@@ -99,8 +99,8 @@ export class HomePage implements OnInit {
       return
     }
     this.goalList = this.goalList.filter(currentGoal =>{
-      if(currentGoal.name && searchTerm){
-        if(currentGoal.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1){
+      if(currentGoal.datos.nombre && searchTerm){
+        if(currentGoal.datos.nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1){
           return true;
         }
         return false;
