@@ -63,4 +63,14 @@ mat-expansion-panel-header{
     border:1px solid aquamarine;
     background:aliceblue;
 }
-
+ion-fab{
+    position: fixed;
+    bottom:0;
+    right:0;
+    margin-bottom:100px;
+    margin-right: 30px;
+}
+/* ion-footer{
+    position: fixed;
+    bottom:0;
+} */

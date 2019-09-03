@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChatsService, chat } from '../chats.service';
-import { ModalController, IonContent } from '@ionic/angular';
+import { ModalController, IonContent, AlertController } from '@ionic/angular';
 import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
+import { database } from 'firebase';
 
 
 
@@ -29,7 +30,8 @@ export class HomePage implements OnInit {
 
   constructor(public chatPvr: ChatsService,
               private modal: ModalController,
-              public chatService: ChatsService) {}
+              public chatService: ChatsService,
+              public alert:AlertController) {}
 
   ngOnInit(){
     this.chatPvr.getChatRooms().subscribe(chats =>{
@@ -98,6 +100,38 @@ export class HomePage implements OnInit {
         return false;
       }
     });
+  }
+
+  async showModal(chat){
+    const alert = await this.alert.create({
+      header: 'guardar nota',
+      subHeader:'Ingresa nota',
+      inputs: [
+        {
+          name:'nota',
+          type:'text',
+          placeholder:'Ingresa nota'
+        }
+      ],
+      buttons:[
+        {
+          text: 'Ok',
+          handler: (data)=>{
+            console.log('función aqui')
+            const mynote : mynote ={
+              content: data.nota,
+              type:'text',
+              date: new Date(),
+              user: 'Claudia',
+            }
+            this.chatService.sendNote(mynote, this.chat.id);
+            this.obtenerConversacion(chat);
+            
+          }
+        }
+      ]
+    })
+    await alert.present();
   }
 
 }

@@ -4,6 +4,17 @@
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
     <ion-title>Preguntas y Respuestas</ion-title>
+    <ion-buttons slot="secondary">
+        <ion-button icon-only [routerLink]="'/home'">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
+        <ion-button icon-only [routerLink]="'/qa'">
+          <ion-icon name="alert"></ion-icon>
+        </ion-button>
+      <ion-button icon-only [routerLink]="'/qa'">
+        <ion-icon name="bookmarks"></ion-icon>
+      </ion-button>
+    </ion-buttons> 
   </ion-toolbar>
 </ion-header>
 
@@ -12,8 +23,10 @@
     <ion-col size="4">
       <ion-row>
         <ion-col size="12" *ngFor="let q of qaCategories">
-          <ion-card class="cardQa" (click)="qaDetail(q)">
+          <ion-card class="cardQa" (click)="qaDetail(q)" color="primary">
+            <ion-card-header>
               {{q.nombre}}
+            </ion-card-header>
           </ion-card> 
         </ion-col> 
       </ion-row>

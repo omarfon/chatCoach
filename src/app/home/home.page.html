@@ -1,12 +1,15 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title>
       Chat Coach
     </ion-title>
     <ion-buttons slot="secondary">
+        <ion-button icon-only [routerLink]="'/home'">
+          <ion-icon name="home"></ion-icon>
+        </ion-button>
         <ion-button icon-only [routerLink]="'/qa'">
           <ion-icon name="alert"></ion-icon>
         </ion-button>
@@ -20,6 +23,7 @@
 <ion-content> 
   <ion-grid>
     <ion-row>
+      <!-- aqui se muestran los mensajes de el usuario seleccionado -->
       <ion-col size="7" id="areaMensajes" >
         <div *ngIf="conversacion">
           <ion-row *ngFor="let mensaje of conversacion.messages">
@@ -38,10 +42,10 @@
                   </div> 
                 </ion-col>  
           </ion-row >
-
-
         </div>
       </ion-col>
+
+      <!-- esta sección es para mostrar a los usuarios y los datos de los usuarios -->
       <ion-col size="5" id="positionFixed">
         <ion-row>
           <ion-col size="12">
@@ -50,15 +54,6 @@
               <ion-searchbar placeholder="buscar aviver" animated showcancelbutton=""
               (ionInput)="filterList($event)">
                 </ion-searchbar>
-                <!-- <ion-item *ngFor="let chat of chatRooms" (click)="obtenerConversacion(chat)">
-                  <ion-avatar slot="start">
-                    <img [src]= chat.img alt="">
-                  </ion-avatar>
-                  <ion-label>
-                    <h2><b>{{chat.name}}</b></h2>
-                    <h3>{{chat.description}}</h3>
-                  </ion-label>
-                </ion-item> -->
                 <ion-slides [options]="slideOpts">
                   <ion-slide  *ngFor="let chat of goalList">
                 <ion-row>
@@ -66,7 +61,7 @@
                           <img style="height: 110px;" src="{{chat.img}}">
                           <ion-card-header>
                             <ion-card-subtitle>
-                                {{chat.name}}
+                                {{chat.datos.nombre}} {{chat.datos.apellido1}}
                             </ion-card-subtitle> 
                           </ion-card-header>
                         </ion-card>
@@ -78,34 +73,34 @@
           </ion-col>
           <ion-col size="12" *ngIf="chat">
             <mat-accordion>
-              <mat-expansion-panel >
-                <mat-expansion-panel-header>
+            <mat-expansion-panel >
+                <mat-expansion-panel-header >
                   <mat-panel-title>
-                    <h2 class="tituloDatos">Datos de {{chat.datos.nombre}} {{chat.datos.apellido1}}</h2>
+                    <h5 class="tituloDatos" *ngIf="chat.datos.nombre">Datos de {{chat.datos.nombre}} {{chat.datos.apellido1}}</h5>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div>
-                  <ion-row>
+                  <ion-row >
                     <ion-col size="4" class="Nombre:">Nombre:</ion-col>
                     <ion-col size="8">{{chat.datos.nombre}} {{chat.datos.apellido1}} {{chat.datos.apellido2}}</ion-col> 
                   </ion-row>
-                  <ion-row>
+                  <ion-row >
                       <ion-col size="4">Dni:</ion-col>
                     <ion-col size="8">{{chat.datos.dni}}</ion-col>
                   </ion-row>
-                  <ion-row>
+                  <ion-row >
                       <ion-col size="4">Telefono:</ion-col>
                     <ion-col size="8">{{chat.datos.telefono}}</ion-col>
                   </ion-row>
-                  <ion-row>
+                  <ion-row >
                       <ion-col size="4">Email:</ion-col>
                     <ion-col size="8">{{chat.datos.email}}</ion-col>
                   </ion-row>
-                  <ion-row>
+                  <ion-row >
                       <ion-col size="4">Embarazos:</ion-col>
                     <ion-col size="8">{{chat.datos.embarazos}}</ion-col>
                   </ion-row>
-                  <ion-row>
+                  <ion-row >
                       <ion-col size="4">Semanas:</ion-col>
                     <ion-col size="8">{{chat.datos.semanas}} semanas</ion-col>
                   </ion-row>
@@ -114,35 +109,24 @@
               <mat-expansion-panel>
                 <mat-expansion-panel-header >
                   <mat-panel-title>
-                    <ion-col *ngIf="chat">
-                      <h2 class="tituloNotas">Mis notas de {{chat.datos.nombre}}</h2>
+                    <ion-col >
+                      <h5 class="tituloNotas" *ngIf="chat.datos.nombre">Mis notas de {{chat.datos.nombre}}</h5>
                     </ion-col> 
                   </mat-panel-title>
                 </mat-expansion-panel-header>  
-                <div>
-                  <ion-card *ngFor="let note of chat.notes">
-                      {{note.content}}
-                  </ion-card>
-                </div>
-                <ion-row>
-                  <ion-col size="10">
-                    <ion-item>
-                      <ion-input [(ngModel)]="note">
-                      </ion-input>
-                    </ion-item>
-                  </ion-col>
-                  <ion-col size="2">
-                    <ion-button (click)="sendMyNote(chat)">
-                      <ion-icon name="send"></ion-icon>
-                    </ion-button> 
-                  </ion-col>
-                </ion-row>
+                  <ion-row>
+                    <ion-col size="4" *ngFor="let note of chat.notes">
+                      <ion-card >
+                          {{note.content}}
+                      </ion-card>
+                    </ion-col>
+                  </ion-row>
               </mat-expansion-panel>
               <mat-expansion-panel>
                   <mat-expansion-panel-header >
                     <mat-panel-title>
                       <ion-col *ngIf="chat">
-                        <h2 class="tituloNotas">Plan Mamá Aviva</h2>
+                        <h5 class="tituloNotas">Plan Mamá Aviva</h5>
                       </ion-col> 
                     </mat-panel-title>
                   </mat-expansion-panel-header>  
@@ -151,7 +135,7 @@
                     <mat-expansion-panel-header >
                       <mat-panel-title>
                         <ion-col *ngIf="chat">
-                          <h2 class="tituloNotas">Notas Doctor</h2>
+                          <h5 class="tituloNotas">Notas Doctor</h5>
                         </ion-col> 
                       </mat-panel-title>
                     </mat-expansion-panel-header>  
@@ -159,13 +143,14 @@
             </mat-accordion>
           </ion-col>
         </ion-row>
-    
-            <ion-fab-button (click)="showModal()">
-              <ion-icon name="plus"></ion-icon>
-            </ion-fab-button>
-          
-      </ion-col> 
-    </ion-row>
+<!--     boton para actualizar las notas -->
+</ion-col> 
+</ion-row>
+    <ion-fab>
+      <ion-fab-button  (click)="showModal(chat)" vertical="bottom" horizontal="end" position="fixed" >
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </ion-grid>  
 </ion-content> 
  <ion-footer padding>

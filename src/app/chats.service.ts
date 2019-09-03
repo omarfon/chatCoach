@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {map } from 'rxjs/operators';
 import { message, mynote } from './models/message';
-
+import { AngularFireAuth } from '@angular/fire/auth';
 import { firestore } from 'firebase';
+import { Observable } from 'rxjs';
+
 export interface chat {
   description:string
   name: string
@@ -17,7 +19,8 @@ export interface chat {
 })
 export class ChatsService {
 
-  constructor(public db: AngularFirestore) { 
+  constructor(public db: AngularFirestore,
+              public ad: AngularFireAuth) { 
 
   }
 
@@ -46,4 +49,15 @@ export class ChatsService {
       notes: firestore.FieldValue.arrayUnion(note),
     })
   }
+
+  loginEmailUser(email, password){
+    return new Promise((resolve, reject)=>{
+      this.ad.auth.signInWithEmailAndPassword(email, password)
+      .then(userData => resolve(userData)),
+      err => (reject(err));
+    });
+  }
+
+
+
 }

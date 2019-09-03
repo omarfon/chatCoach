@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-qa',
@@ -117,7 +118,7 @@ export class QaPage implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(public alert: AlertController) { }
 
   ngOnInit() {
   }
@@ -125,8 +126,6 @@ export class QaPage implements OnInit {
   qaDetail(q){
     this.qaDates = q.ev;
   }
-  showModal(){
-    
-  }
-}
 
+
+}
