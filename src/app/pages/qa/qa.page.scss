@@ -1,8 +1,15 @@
 .cardQa{
     height: 110px;
+    text-align: center;
+    font-size:1.2em;
+    padding-top:30px;
 }
 ion-avatar{
     height: 40px;
     width:40px;
     margin-right:20px;
+}
+mat-expansion-panel-header{
+    background:#10dc60;
+    color:#fff!important;
 }
