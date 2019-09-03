@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
   currentUser = 'Claudia';
   public goalList: any[];
   public loadedGoalList: any[];
+  public nombre;
 
   @ViewChild(IonContent) content: IonContent;
   public slideOpts = {
@@ -38,6 +39,11 @@ export class HomePage implements OnInit {
      this.goalList  = chats;
      this.loadedGoalList = chats;
      /* console.log(this.chatRooms); */
+     if(localStorage.getItem('name')){
+       this.nombre = localStorage.getItem('name');
+     }else{
+       this.nombre = 'Coach';
+     }
     });
     console.log(new Date()); 
   }

@@ -68,6 +68,10 @@ export class LoginPage implements OnInit {
       localStorage.setItem('name', data.name);
       localStorage.setItem('surname1', data.surname1);
       localStorage.setItem('photoUrl', data.photoUrl);
+      this.chatSrv.loginEmailUser(email, password).then((result:any) =>{
+        console.log(result);
+        localStorage.setItem('uid', result.user.uid )
+      });
       this.routes.navigate(['home']);
    });
   }   

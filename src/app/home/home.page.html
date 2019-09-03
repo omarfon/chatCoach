@@ -1,21 +1,24 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <!-- <ion-buttons slot="start">
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-    </ion-buttons> -->
+    </ion-buttons>
     <ion-title>
-      Chat Coach
+      Bienvenida {{nombre}}
     </ion-title>
     <ion-buttons slot="secondary">
-        <ion-button icon-only [routerLink]="'/home'">
+        <!-- <ion-button icon-only [routerLink]="'/home'">
           <ion-icon name="home"></ion-icon>
-        </ion-button>
+        </ion-button> -->
         <ion-button icon-only [routerLink]="'/qa'">
-          <ion-icon name="alert"></ion-icon>
+          <ion-icon name="chatbubbles"></ion-icon>
         </ion-button>
       <ion-button icon-only [routerLink]="'/qa'">
         <ion-icon name="bookmarks"></ion-icon>
       </ion-button>
+      <ion-avatar>
+        <img src="http://lorempixel.com/200/200" alt=""> 
+      </ion-avatar>  
     </ion-buttons> 
   </ion-toolbar>
 </ion-header>

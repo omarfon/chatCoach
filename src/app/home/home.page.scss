@@ -60,8 +60,9 @@ ion-content{
     text-align: center;
 } */
 mat-expansion-panel-header{
-    border:1px solid aquamarine;
-    background:aliceblue;
+    border:1px solid #f4f5f8;
+    background:#f4f5f8;
+    color:#f4f5f8;
 }
 ion-fab{
     position: fixed;
@@ -70,7 +71,8 @@ ion-fab{
     margin-bottom:100px;
     margin-right: 30px;
 }
-/* ion-footer{
-    position: fixed;
-    bottom:0;
-} */
+ion-avatar{
+    height: 40px;
+    width:40px;
+    margin-right:20px;
+}
