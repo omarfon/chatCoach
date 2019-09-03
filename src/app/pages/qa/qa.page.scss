@@ -1,8 +1,9 @@
 .cardQa{
     height: 110px;
-    text-align: center;
+    display: flex;
     font-size:1.2em;
-    padding-top:30px;
+    justify-content: center;
+    align-items: center;
 }
 ion-avatar{
     height: 40px;
