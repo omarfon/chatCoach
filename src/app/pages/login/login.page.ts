@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
 
   public loginForm: FormGroup;
   public userResponse;
+  public datos;
 
   constructor( private fb: FormBuilder,
                public routes: Router,
@@ -48,18 +49,6 @@ export class LoginPage implements OnInit {
   }
 
   onLogin(email, password){
-   /* this.chatSrv.loginEmailUser(email, password).then((result:any) =>{
-     console.log(result);
-     localStorage.setItem('uid', result.user.uid );
-     this.routes.navigate(['home']);
-   }).catch(async err =>{
-     const alert = await this.alertCtrl.create({
-       header:'Error de Login',
-       message: `${err.message}`,
-       buttons: ['Reintentar']
-     });
-     await alert.present();
-   })    */ 
    this.userSrv.doSignIn(email, password).subscribe((data:any)=>{
      this.userResponse = data;
       localStorage.setItem('authorization', data.authorization);
@@ -68,11 +57,12 @@ export class LoginPage implements OnInit {
       localStorage.setItem('name', data.name);
       localStorage.setItem('surname1', data.surname1);
       localStorage.setItem('photoUrl', data.photoUrl);
-      this.chatSrv.loginEmailUser(email, password).then((result:any) =>{
+      this.userSrv.registerForCustom().then( async (result:any) =>{
         console.log(result);
-        localStorage.setItem('uid', result.user.uid )
+        this.datos = result
+        this.routes.navigate(['/home']);
+          localStorage.setItem('uid', result.user.uid )
       });
-      this.routes.navigate(['home']);
    });
   }   
 

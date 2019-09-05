@@ -4,6 +4,7 @@ import { ModalController, IonContent, AlertController } from '@ionic/angular';
 import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
 import { database } from 'firebase';
+import { DatosBasicosService } from '../services/datos-basicos.service';
 
 
 
@@ -23,6 +24,8 @@ export class HomePage implements OnInit {
   public goalList: any[];
   public loadedGoalList: any[];
   public nombre;
+  public datosBasicos;
+  public patientid;
 
   @ViewChild(IonContent) content: IonContent;
   public slideOpts = {
@@ -32,7 +35,8 @@ export class HomePage implements OnInit {
   constructor(public chatPvr: ChatsService,
               private modal: ModalController,
               public chatService: ChatsService,
-              public alert:AlertController) {}
+              public alert:AlertController,
+              public datosBasicSrv: DatosBasicosService) {}
 
   ngOnInit(){
     this.chatPvr.getChatRooms().subscribe(chats =>{
@@ -53,7 +57,6 @@ export class HomePage implements OnInit {
   }
 
   obtenerConversacion(chat){
-    /* this.chat = {}; */
     this.chat = chat;
     this.chatService.getChatRoom(this.chat.id).subscribe( room =>{
       this.conversacion = room;
@@ -62,6 +65,17 @@ export class HomePage implements OnInit {
     setTimeout(()=>{
       this.content.scrollToBottom(300);
     },300)
+
+    this.patientid = chat.datos[0].patientid;
+    this.getDatosBasicos();
+
+  }
+  getDatosBasicos(){
+    const patientid = this.patientid;
+      this.datosBasicSrv.getDatosBasicos(patientid).subscribe((data:any) =>{
+        this.datosBasicos = data;
+        console.log('datos', this.datosBasicos);
+      })
   }
 
   sendMessage(){
