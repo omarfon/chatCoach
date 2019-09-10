@@ -62,14 +62,13 @@
                   <ion-slide  *ngFor="let chat of goalList">
                 <ion-row>
                         <ion-card (click)="obtenerConversacion(chat)">
-                          <img *ngIf="chat.datos.imagen" style="height: 110px;" src="{{chat.datos[0].imagen}}">
+                          <img *ngIf="chat.datos.imagen" style="height: 110px;" src="{{chat.datos.imagen}}">
                           <ion-card-header>
                             <ion-card-subtitle>
                                 {{chat.datos.nombre}} {{chat.datos.apellido1}}
                             </ion-card-subtitle> 
                           </ion-card-header>
                         </ion-card>
-                     
                     </ion-row>
                   </ion-slide> 
                   </ion-slides>  
@@ -126,7 +125,7 @@
                     </ion-col>
                   </ion-row>
               </mat-expansion-panel>
-              <mat-expansion-panel>
+              <mat-expansion-panel (click)="getNotasPaciente()">
                   <mat-expansion-panel-header >
                     <mat-panel-title>
                       <ion-col *ngIf="chat">

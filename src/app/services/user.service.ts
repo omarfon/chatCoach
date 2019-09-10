@@ -49,7 +49,7 @@ registerForCustom(){
      return new Promise((resolve, reject)=>{
        this.ad.auth.signInWithCustomToken(firebaseToken).then(resolve =>{
           console.log(resolve);
-          let data = resolve;
+          /* let data = resolve;
           localStorage.setItem('uid', data.user.uid);
           if(localStorage.getItem('uid')){
             const uid = localStorage.getItem('uid')
@@ -62,7 +62,7 @@ registerForCustom(){
             }).catch(err =>{
               console.log(err, 'error de no escritura');
             })
-          }
+          } */
        }).catch(err => reject(err))
      });
   }

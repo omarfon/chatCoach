@@ -5,6 +5,7 @@ import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
 import { database } from 'firebase';
 import { DatosBasicosService } from '../services/datos-basicos.service';
+import { NotasService } from '../services/notas.service';
 
 
 
@@ -26,6 +27,7 @@ export class HomePage implements OnInit {
   public nombre;
   public datosBasicos;
   public patientid;
+  public notasPaciente;
 
   @ViewChild(IonContent) content: IonContent;
   public slideOpts = {
@@ -36,7 +38,8 @@ export class HomePage implements OnInit {
               private modal: ModalController,
               public chatService: ChatsService,
               public alert:AlertController,
-              public datosBasicSrv: DatosBasicosService) {}
+              public datosBasicSrv: DatosBasicosService,
+              public notasSrv: NotasService) {}
 
   ngOnInit(){
     this.chatPvr.getChatRooms().subscribe(chats =>{
@@ -58,6 +61,7 @@ export class HomePage implements OnInit {
 
   obtenerConversacion(chat){
     this.chat = chat;
+    console.log(chat);
     this.chatService.getChatRoom(this.chat.id).subscribe( room =>{
       this.conversacion = room;
       console.log('this.conversacion:',this.conversacion);
@@ -66,8 +70,9 @@ export class HomePage implements OnInit {
       this.content.scrollToBottom(300);
     },300)
 
-    this.patientid = chat.datos[0].patientid;
+    this.patientid = chat.datos.patientid;
     this.getDatosBasicos();
+   /*  this.getNotasPaciente(); */
 
   }
   getDatosBasicos(){
@@ -76,6 +81,14 @@ export class HomePage implements OnInit {
         this.datosBasicos = data;
         console.log('datos', this.datosBasicos);
       })
+  }
+
+  getNotasPaciente(){
+    const patienId = this.patientid;
+    this.notasSrv.getNotas(patienId).subscribe((data:any)=>{
+      this.notasPaciente = data;
+      console.log('notas', this.notasPaciente)
+    })
   }
 
   sendMessage(){

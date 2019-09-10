@@ -60,8 +60,10 @@ export class LoginPage implements OnInit {
       this.userSrv.registerForCustom().then( async (result:any) =>{
         console.log(result);
         this.datos = result
-        this.routes.navigate(['/home']);
+        if(this.datos){
+          this.routes.navigate(['home']);
           localStorage.setItem('uid', result.user.uid )
+        }
       });
    });
   }   
