@@ -6,7 +6,7 @@ import { message, mynote } from '../models/message';
 import { database } from 'firebase';
 import { DatosBasicosService } from '../services/datos-basicos.service';
 import { NotasService } from '../services/notas.service';
-
+import * as moment from 'moment';
 
 
 @Component({
@@ -28,10 +28,14 @@ export class HomePage implements OnInit {
   public datosBasicos;
   public patientid;
   public notasPaciente;
+  public fechaEmbarazo;
 
   @ViewChild(IonContent) content: IonContent;
   public slideOpts = {
     slidesPerView:3.3
+  }
+  public opts = {
+    slidesPerView: 2.1
   }
 
   constructor(public chatPvr: ChatsService,
@@ -80,15 +84,32 @@ export class HomePage implements OnInit {
       this.datosBasicSrv.getDatosBasicos(patientid).subscribe((data:any) =>{
         this.datosBasicos = data;
         console.log('datos', this.datosBasicos);
+        this.datosBasicSrv.getDoagnosticoEmbarazo(patientid).subscribe((data:any)=>{
+          console.log('getDiagnosticoEmbarazo:', data);
+          this.fechaEmbarazo  = data.fecha_ultima_regla;
+          console.log(this.fechaEmbarazo);
+        })
       })
   }
 
-  getNotasPaciente(){
+  /* getNotasPaciente(){
     const patienId = this.patientid;
     this.notasSrv.getNotas(patienId).subscribe((data:any)=>{
       this.notasPaciente = data;
       console.log('notas', this.notasPaciente)
     })
+  } */
+
+  getNotasPaciente(patientid, fechaini, fechafin){
+      const patienId = this.patientid;
+      const fechaIni = moment(this.patientid).format("YYYY/MM/DD");
+      const fechaFin = moment().format("YYYY/MM/DD");;
+      this.notasSrv.getNotas(patienId, fechaIni, fechaFin).subscribe((data:any)=>{
+        this.notasPaciente = data.encuentros;
+        console.log('thisnotaspaienter', this.notasPaciente)
+      })
+
+
   }
 
   sendMessage(){

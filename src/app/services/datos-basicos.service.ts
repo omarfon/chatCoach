@@ -26,4 +26,16 @@ export class DatosBasicosService {
                     })
     )
   }
+
+  getDoagnosticoEmbarazo(patientid){
+    const authorization = localStorage.getItem('authorization');
+    let headers = new HttpHeaders({"Authorization": authorization});
+
+    return this.http.get(this.apiUrl + `ebooking/solo-diagnostico-embarazo-actual-contacto?patientid=${patientid}`, {headers}).pipe(
+      map((resp:any) =>{
+        return resp
+      })
+)
+
+  }
 }

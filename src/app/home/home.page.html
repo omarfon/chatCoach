@@ -125,14 +125,35 @@
                     </ion-col>
                   </ion-row>
               </mat-expansion-panel>
-              <mat-expansion-panel (click)="getNotasPaciente()">
+              <mat-expansion-panel >
                   <mat-expansion-panel-header >
-                    <mat-panel-title>
+                    <mat-panel-title (click)="getNotasPaciente()">
                       <ion-col *ngIf="chat">
                         <h5 class="tituloNotas">Plan Mamá Aviva</h5>
                       </ion-col> 
                     </mat-panel-title>
                   </mat-expansion-panel-header>  
+                  <ion-slides [options]="opts">
+                      <ion-slide *ngFor="let nota of notasPaciente">
+                        <ion-card>
+                            <ion-row>
+                              <ion-col size="4">
+                                <ion-col size="12">{{nota.fecha_encuentro | date:"short"}}</ion-col>
+                                <ion-col size="12">{{nota.fecha_encuentro | date:"dd/MM"}}</ion-col>
+                              </ion-col>
+                              <ion-col size="8">
+                                <ion-col size="12">
+                                  <p>{{nota.nombre}} {{nota.apellido1}} {{nota.apellido2}}</p> 
+                                </ion-col>
+                                <ion-col size="12">
+                                  <p>{{nota.serv_bas_desc}}</p> 
+                                </ion-col>
+                              </ion-col>
+                              <ion-col size="12"></ion-col>
+                            </ion-row>
+                        </ion-card>
+                      </ion-slide>
+                    </ion-slides>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header >
@@ -142,6 +163,7 @@
                         </ion-col> 
                       </mat-panel-title>
                     </mat-expansion-panel-header>  
+                    
                   </mat-expansion-panel>
             </mat-accordion>
           </ion-col>

@@ -11,12 +11,12 @@ export class NotasService {
 
   public apiUrl = "https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/";
 
-  getNotas(patientid){
+  getNotas(patientid, fechaIni, fechaFin){
 
     const authorization = localStorage.getItem('authorization');
     let headers = new HttpHeaders({"Authorization": authorization});
 
-    return this.http.get(this.apiUrl + `ebooking/encuentros-paciente-contacto/${patientid}`, {headers}).pipe(
+    return this.http.get(this.apiUrl + `ebooking/diagnostico-embarazo-actual-contacto?patientid=${patientid}&fechaIni=${fechaIni}&fechaFin=${fechaFin}`, {headers}).pipe(
                     map((resp:any) =>{
                       return resp
                     })
