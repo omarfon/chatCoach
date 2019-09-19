@@ -129,7 +129,7 @@
                   <mat-expansion-panel-header >
                     <mat-panel-title (click)="getNotasPaciente()">
                       <ion-col *ngIf="chat">
-                        <h6 class="tituloNotas">Plan Mamá Aviva</h6>
+                        <h6 class="tituloNotas">Encuentros {{datosBasicos.nombre}}</h6>
                       </ion-col> 
                     </mat-panel-title>
                   </mat-expansion-panel-header>  
@@ -137,7 +137,7 @@
                       <ion-slide *ngFor="let nota of notasPaciente">
                         <ion-chip outline="true" color="blue" (click)="openModalDataCita($event, nota)">
                           <ion-label color="blue">{{nota.serv_bas_desc}} {{nota.fecha_encuentro | date:"dd-MM-yyyy"}}</ion-label>
-                          <ion-icon name="pin" color="blue"></ion-icon>
+                          <!-- <ion-icon name="pin" color="blue"></ion-icon> -->
                         </ion-chip>
                       </ion-slide>
                     </ion-slides>

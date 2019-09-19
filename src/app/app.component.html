@@ -7,11 +7,11 @@
           </ion-toolbar>
         </ion-header> -->
         <ion-content>
-          <div class="cabecera">
+         <!--  <div class="cabecera">
             <div class="circulo"></div>
             <h3 class="nombre">Juana Perez</h3>
             <p class="correo">juana.perez@aviva.pe</p> 
-          </div>
+          </div> -->
           <ion-list *ngFor="let pages of navigate">
             <ion-item [routerLink]="pages.url" routerDirection="forward">
               <ion-icon [name]="pages.icon" slot="start"></ion-icon>

@@ -11,6 +11,7 @@ export class QaPage implements OnInit {
 
   public qaDates;
   public qaCategories;
+  public _qaCategories;
 
   constructor(public alert: AlertController,
               public notes: NotesService) { }
@@ -19,7 +20,9 @@ export class QaPage implements OnInit {
 
     this.notes.getNotesForCategory().subscribe(data =>{
       this.qaCategories = data;
+      this._qaCategories = data;
       console.log(this.qaCategories);
+      console.log('_qaCategories', this._qaCategories);
     });
   }
 
@@ -30,6 +33,26 @@ export class QaPage implements OnInit {
 
   openPopoverDataCoach(){
     console.log('mostrar data claudia');
+  }
+
+  initializeItems():void {
+    this.qaCategories = this._qaCategories;
+  }
+
+
+  searchData(){
+    const searchTerm = evt.srcElement.value;
+    if(!searchTerm){
+      return
+    }
+    this.goalList = this.goalList.filter(currentGoal =>{
+      if(currentGoal.datos.nombre && searchTerm){
+        if(currentGoal.datos.nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1){
+          return true;
+        }
+        return false;
+      }
+    });
   }
 
 
