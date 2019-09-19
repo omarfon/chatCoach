@@ -33,10 +33,6 @@ export class LoginPage implements OnInit {
                 }
 
   ngOnInit() {
-   /*  this.loginForm = this.fb.group({
-      email:['', [Validators.required]],
-      password:['', [Validators.required]]
-    }); */
     const authorization = localStorage.getItem('authorizathion');
     if(!authorization){
       this.userSrv.getKey().subscribe((data:any) =>{
@@ -57,11 +53,11 @@ export class LoginPage implements OnInit {
       localStorage.setItem('name', data.name);
       localStorage.setItem('surname1', data.surname1);
       localStorage.setItem('photoUrl', data.photoUrl);
+      this.routes.navigate(['home']);
       this.userSrv.registerForCustom().then( async (result:any) =>{
         console.log(result);
         this.datos = result
         if(this.datos){
-          this.routes.navigate(['home']);
           localStorage.setItem('uid', result.user.uid )
         }
       });

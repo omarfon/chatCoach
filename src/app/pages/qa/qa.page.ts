@@ -28,5 +28,9 @@ export class QaPage implements OnInit {
     this.qaDates = q;
   }
 
+  openPopoverDataCoach(){
+    console.log('mostrar data claudia');
+  }
+
 
 }

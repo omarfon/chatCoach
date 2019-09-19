@@ -19,6 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from './material.module';
 import {AngularFireAuthModule} from '@angular/fire/auth'
 import { HttpClientModule } from '@angular/common/http';
+import { ComponentsModule } from './components/components.module';
+
 
 
 const firebaseConfig ={
@@ -45,6 +47,7 @@ const firebaseConfig ={
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     HttpClientModule,
+    ComponentsModule,
     MaterialModule],
   
   providers: [

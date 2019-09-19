@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChatsService, chat } from '../chats.service';
-import { ModalController, IonContent, AlertController } from '@ionic/angular';
+import { ModalController, IonContent, AlertController, PopoverController } from '@ionic/angular';
 import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
 import { database } from 'firebase';
 import { DatosBasicosService } from '../services/datos-basicos.service';
 import { NotasService } from '../services/notas.service';
 import * as moment from 'moment';
+import { DatoscitasComponent } from '../components/datoscitas/datoscitas.component';
+import { DatosclaudiaComponent } from '../components/datosclaudia/datosclaudia.component';
 
 
 @Component({
@@ -43,7 +45,8 @@ export class HomePage implements OnInit {
               public chatService: ChatsService,
               public alert:AlertController,
               public datosBasicSrv: DatosBasicosService,
-              public notasSrv: NotasService) {}
+              public notasSrv: NotasService,
+              public popoverCtrl: PopoverController) {}
 
   ngOnInit(){
     this.chatPvr.getChatRooms().subscribe(chats =>{
@@ -187,5 +190,23 @@ export class HomePage implements OnInit {
     })
     await alert.present();
   }
+  async openModalDataCita( ev: any, nota){
+    console.log(nota);
+    const popover = await this.popoverCtrl.create({
+        component: DatoscitasComponent,
+        event:ev,
+        componentProps:{
+          nota:nota
+        }
+    });
+    await popover.present()
+  }
 
+
+  async openPopoverDataCoach(ev:any){
+    const popoVer = await this.popoverCtrl.create({
+      component: DatosclaudiaComponent
+    });
+    await popoVer.present();
+  }
 }

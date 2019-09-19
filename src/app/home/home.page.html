@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="medium">
+  <ion-toolbar color="blanco">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -17,7 +17,7 @@
       <ion-button icon-only [routerLink]="'/qa'">
         <ion-icon name="bookmarks"></ion-icon>
       </ion-button>
-      <ion-avatar>
+      <ion-avatar (click)="openPopoverDataCoach()">
         <img src="http://lorempixel.com/200/200" alt=""> 
       </ion-avatar>  
     </ion-buttons> 
@@ -55,7 +55,7 @@
           <ion-col size="12">
             <ion-list>
               <!-- <h5 class="mamas">Lista de Mamás</h5> -->
-              <ion-searchbar placeholder="buscar aviver" animated showcancelbutton=""
+              <ion-searchbar class="search" debounce="500" placeholder="buscar aviver" showcancelbutton=""
               (ionInput)="filterList($event)">
                 </ion-searchbar>
                 <ion-slides [options]="slideOpts">
@@ -79,32 +79,32 @@
             <mat-expansion-panel >
                 <mat-expansion-panel-header >
                   <mat-panel-title>
-                    <h5 class="tituloDatos" *ngIf="datosBasicos">Datos de {{datosBasicos.nombre}} {{chat.datos.apellido1}}</h5>
+                    <h6 class="tituloDatos" *ngIf="datosBasicos">Datos de {{datosBasicos.nombre}} {{chat.datos.apellido1}}</h6>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div>
                   <ion-row >
-                    <ion-col size="4" class="Nombre:">Nombre:</ion-col>
+                    <ion-col size="4" class="Nombre title">Nombre:</ion-col>
                     <ion-col size="8">{{datosBasicos.nombre}} {{datosBasicos.apellido1}} {{datosBasicos.apellido2}}</ion-col> 
                   </ion-row>
                   <ion-row >
-                      <ion-col size="4">Dni:</ion-col>
+                      <ion-col size="4" class="title">Dni:</ion-col>
                     <ion-col size="8">{{datosBasicos.numeroDocumento}}</ion-col>
                   </ion-row>
                   <ion-row >
-                      <ion-col size="4">Telefono:</ion-col>
+                      <ion-col size="4" class="title">Telefono:</ion-col>
                     <ion-col size="8">{{datosBasicos.telefono1}}</ion-col>
                   </ion-row>
                   <ion-row >
-                      <ion-col size="4">Email:</ion-col>
+                      <ion-col size="4" class="title">Email:</ion-col>
                     <ion-col size="8" *ngIf="datosBasicos">PENDIENTE</ion-col>
                   </ion-row>
                   <ion-row >
-                      <ion-col size="4">Fecha de Nacimiento:</ion-col>
+                      <ion-col size="4" class="title">Fecha de Nacimiento:</ion-col>
                     <ion-col size="8">{{datosBasicos.fecha_nac | date:"short"}}</ion-col>
                   </ion-row>
                   <ion-row >
-                      <ion-col size="4">Semanas:</ion-col>
+                      <ion-col size="4" class="title">Semanas:</ion-col>
                     <ion-col size="8" *ngIf="datosBasicos">PENDIENTE</ion-col>
                   </ion-row>
                 </div>
@@ -113,7 +113,7 @@
                 <mat-expansion-panel-header >
                   <mat-panel-title>
                     <ion-col >
-                      <h5 class="tituloNotas" *ngIf="datosBasicos.nombre">Mis notas de {{datosBasicos.nombre}}</h5>
+                      <h6 class="tituloNotas" *ngIf="datosBasicos.nombre">Mis notas de {{datosBasicos.nombre}}</h6>
                     </ion-col> 
                   </mat-panel-title>
                 </mat-expansion-panel-header>  
@@ -129,29 +129,16 @@
                   <mat-expansion-panel-header >
                     <mat-panel-title (click)="getNotasPaciente()">
                       <ion-col *ngIf="chat">
-                        <h5 class="tituloNotas">Plan Mamá Aviva</h5>
+                        <h6 class="tituloNotas">Plan Mamá Aviva</h6>
                       </ion-col> 
                     </mat-panel-title>
                   </mat-expansion-panel-header>  
                   <ion-slides [options]="opts">
                       <ion-slide *ngFor="let nota of notasPaciente">
-                        <ion-card>
-                            <ion-row>
-                              <ion-col size="4">
-                                <ion-col size="12">{{nota.fecha_encuentro | date:"short"}}</ion-col>
-                                <ion-col size="12">{{nota.fecha_encuentro | date:"dd/MM"}}</ion-col>
-                              </ion-col>
-                              <ion-col size="8">
-                                <ion-col size="12">
-                                  <p>{{nota.nombre}} {{nota.apellido1}} {{nota.apellido2}}</p> 
-                                </ion-col>
-                                <ion-col size="12">
-                                  <p>{{nota.serv_bas_desc}}</p> 
-                                </ion-col>
-                              </ion-col>
-                              <ion-col size="12"></ion-col>
-                            </ion-row>
-                        </ion-card>
+                        <ion-chip outline="true" color="blue" (click)="openModalDataCita($event, nota)">
+                          <ion-label color="blue">{{nota.serv_bas_desc}} {{nota.fecha_encuentro | date:"dd-MM-yyyy"}}</ion-label>
+                          <ion-icon name="pin" color="blue"></ion-icon>
+                        </ion-chip>
                       </ion-slide>
                     </ion-slides>
                 </mat-expansion-panel>
@@ -159,7 +146,7 @@
                     <mat-expansion-panel-header >
                       <mat-panel-title>
                         <ion-col *ngIf="chat">
-                          <h5 class="tituloNotas">Notas Doctor</h5>
+                          <h6 class="tituloNotas">Notas Doctor</h6>
                         </ion-col> 
                       </mat-panel-title>
                     </mat-expansion-panel-header>  
