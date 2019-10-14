@@ -32,10 +32,6 @@ export class LoginPage implements OnInit {
                 }
 
   ngOnInit() {
-   /*  this.loginForm = this.fb.group({
-      email:['', [Validators.required]],
-      password:['', [Validators.required]]
-    }); */
     const authorization = localStorage.getItem('authorizathion');
     if(!authorization){
       this.userSrv.getKey().subscribe((data:any) =>{
@@ -48,31 +44,24 @@ export class LoginPage implements OnInit {
   }
 
   onLogin(email, password){
-   /* this.chatSrv.loginEmailUser(email, password).then((result:any) =>{
-     console.log(result);
-     localStorage.setItem('uid', result.user.uid );
-     this.routes.navigate(['home']);
-   }).catch(async err =>{
-     const alert = await this.alertCtrl.create({
-       header:'Error de Login',
-       message: `${err.message}`,
-       buttons: ['Reintentar']
-     });
-     await alert.present();
-   })    */ 
    this.userSrv.doSignIn(email, password).subscribe((data:any)=>{
      this.userResponse = data;
+     console.log('datos de login:', this.userResponse);
       localStorage.setItem('authorization', data.authorization);
       localStorage.setItem('role', data.role);
       localStorage.setItem('firebaseToken', data.firebaseToken);
       localStorage.setItem('name', data.name);
       localStorage.setItem('surname1', data.surname1);
       localStorage.setItem('photoUrl', data.photoUrl);
-      this.chatSrv.loginEmailUser(email, password).then((result:any) =>{
-        console.log(result);
-        localStorage.setItem('uid', result.user.uid )
-      });
-      this.routes.navigate(['home']);
+      localStorage.setItem('userEmail', data.userEmail);
+      const token = data.firebaseToken;
+      if(token){
+        this.chatSrv.loginWithToken(token).then((result:any) =>{
+          console.log(result);
+          localStorage.setItem('uid', result.user.uid )
+          this.routes.navigate(['home']);
+        });
+      }
    });
   }   
 

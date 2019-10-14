@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
 })
 export class UserService {
   private SERVER = "https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/";
-  private SERVER2 = "https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/auth/login-coach"
+  private SERVER2 = "https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/auth/login"
   apiUrl = `${this.SERVER}users/public-authorization`;
 
 
@@ -26,7 +26,7 @@ export class UserService {
     const authorization = localStorage.getItem('authorization');
     let headers = new HttpHeaders({'Authorization': authorization});
 
-    let params = {email: email, password: password}
+    let params = {email: email, password: password, app: "coach"}
       return this.http.post(this.SERVER2 , params, {headers}).pipe( 
               map(data =>{
               return data

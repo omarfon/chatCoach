@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material.module';
 
 import { HomePage } from './home.page';
+import { ComponentsModule } from '../components/components.module';
+import { NoteComponent } from '../components/note/note.component';
 
 @NgModule({
   imports: [
@@ -13,6 +15,7 @@ import { HomePage } from './home.page';
     FormsModule,
     IonicModule,
     MaterialModule,
+    ComponentsModule,
     RouterModule.forChild([
       {
         path: '',
@@ -20,6 +23,9 @@ import { HomePage } from './home.page';
       }
     ])
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
+  entryComponents:[
+    NoteComponent
+  ]
 })
 export class HomePageModule {}

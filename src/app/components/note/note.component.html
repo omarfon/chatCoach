@@ -1,0 +1,15 @@
+<ion-content>
+  <h3>Crear Nota para</h3> 
+  <img src="../assets/imgs/pre/notes.png" alt="">
+  <ion-row>
+    <ion-col size="12">
+      <ion-textarea #data></ion-textarea>
+    </ion-col>
+    <ion-col size="12">
+      <ion-button class="guardar"
+                  (click)="sendNote(data.value)">
+          guardar nota
+      </ion-button>  
+    </ion-col>
+  </ion-row>
+</ion-content>

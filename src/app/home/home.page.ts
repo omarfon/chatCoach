@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChatsService, chat } from '../chats.service';
-import { ModalController, IonContent, AlertController } from '@ionic/angular';
+import { ModalController, IonContent, AlertController, PopoverController } from '@ionic/angular';
 import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
 import { database } from 'firebase';
+import { NoteComponent } from '../components/note/note.component';
 
 
 
@@ -32,13 +33,14 @@ export class HomePage implements OnInit {
   constructor(public chatPvr: ChatsService,
               private modal: ModalController,
               public chatService: ChatsService,
-              public alert:AlertController) {}
+              public alert:AlertController,
+              public popoverCtrl: PopoverController) {}
 
   ngOnInit(){
     this.chatPvr.getChatRooms().subscribe(chats =>{
      this.goalList  = chats;
      this.loadedGoalList = chats;
-     /* console.log(this.chatRooms); */
+     console.log(this.chatRooms);
      if(localStorage.getItem('name')){
        this.nombre = localStorage.getItem('name');
      }else{
@@ -108,7 +110,7 @@ export class HomePage implements OnInit {
     });
   }
 
-  async showModal(chat){
+  /* async showModal(chat){
     const alert = await this.alert.create({
       header: 'guardar nota',
       subHeader:'Ingresa nota',
@@ -138,6 +140,17 @@ export class HomePage implements OnInit {
       ]
     })
     await alert.present();
+  } */
+
+  async showModal(chat){
+    console.log(chat);
+    const popover = await this.popoverCtrl.create({
+      component:NoteComponent,
+      componentProps:{
+        chat:chat
+      }
+    })
+    await popover.present();
   }
 
 }

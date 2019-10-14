@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 import {map } from 'rxjs/operators';
 import { message, mynote } from './models/message';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { firestore } from 'firebase';
 import { Observable } from 'rxjs';
 
@@ -25,12 +25,13 @@ export class ChatsService {
   }
 
   getChatRooms(){
-    return this.db.collection('chatsRooms').snapshotChanges().pipe(map(rooms =>{
-      return rooms.map(a =>{
+    return this.db.collection('chatsRooms').snapshotChanges().pipe(map(users =>{
+      return users.map(a =>{
         const data = a.payload.doc.data() as chat;
         data.id = a.payload.doc.id;
         return data;
       })
+      console.log('rooms:', users);
     }));
   }
   
@@ -53,6 +54,14 @@ export class ChatsService {
   loginEmailUser(email, password){
     return new Promise((resolve, reject)=>{
       this.ad.auth.signInWithEmailAndPassword(email, password)
+      .then(userData => resolve(userData)),
+      err => (reject(err));
+    });
+  }
+
+  loginWithToken(token){
+    return new Promise((resolve, reject)=>{
+      this.ad.auth.signInWithCustomToken(token)
       .then(userData => resolve(userData)),
       err => (reject(err));
     });
