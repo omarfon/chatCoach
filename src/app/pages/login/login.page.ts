@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
 
   public loginForm: FormGroup;
   public userResponse;
+  public datos;
 
   constructor( private fb: FormBuilder,
                public routes: Router,

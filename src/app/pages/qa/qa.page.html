@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="medium">
+  <ion-toolbar color="blanco">
       <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -15,7 +15,7 @@
      <!--  <ion-button icon-only [routerLink]="'/qa'">
         <ion-icon name="bookmarks"></ion-icon>
       </ion-button> -->
-      <ion-avatar>
+      <ion-avatar (click)="openPopoverDataCoach()">
         <img src="http://lorempixel.com/200/200" alt=""> 
       </ion-avatar>  
     </ion-buttons> 
@@ -24,23 +24,23 @@
 
 <ion-content>
   <ion-row>
-    <ion-col size="4">
+    <ion-col size="4" id="positionFixed">
       <ion-row>
         <ion-col size="12" *ngFor="let q of qaCategories">
           <ion-card class="cardQa" (click)="qaDetail(q)" color="primary">
             <ion-card-header>
-              {{q.nombre}}
+              {{q[0].categoria}}
             </ion-card-header>
           </ion-card> 
         </ion-col> 
       </ion-row>
     </ion-col>
-    <ion-col size="8">
+    <ion-col size="8" id="positionRight">
       <ion-searchbar>
 
       </ion-searchbar>
 
-      <mat-accordion *ngIf="qaDates">
+      <mat-accordion *ngIf="qaDates" >
         <mat-expansion-panel *ngFor="let qa of qaDates">
           <mat-expansion-panel-header>
             <mat-panel-title>

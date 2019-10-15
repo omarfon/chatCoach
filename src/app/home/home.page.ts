@@ -4,8 +4,11 @@ import { ModalController, IonContent, AlertController, PopoverController } from 
 import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
 import { database } from 'firebase';
+import { DatosBasicosService } from '../services/datos-basicos.service';
+import { NotasService } from '../services/notas.service';
+import * as moment from 'moment';
+import { DatoscitasComponent } from '../components/datoscitas/datoscitas.component';
 import { NoteComponent } from '../components/note/note.component';
-
 
 
 @Component({
@@ -24,16 +27,25 @@ export class HomePage implements OnInit {
   public goalList: any[];
   public loadedGoalList: any[];
   public nombre;
+  public datosBasicos;
+  public patientid;
+  public notasPaciente;
+  public fechaEmbarazo;
 
   @ViewChild(IonContent) content: IonContent;
   public slideOpts = {
     slidesPerView:3.3
+  }
+  public opts = {
+    slidesPerView: 2.1
   }
 
   constructor(public chatPvr: ChatsService,
               private modal: ModalController,
               public chatService: ChatsService,
               public alert:AlertController,
+              public datosBasicSrv: DatosBasicosService,
+              public notasSrv: NotasService,
               public popoverCtrl: PopoverController) {}
 
   ngOnInit(){
@@ -55,8 +67,8 @@ export class HomePage implements OnInit {
   }
 
   obtenerConversacion(chat){
-    /* this.chat = {}; */
     this.chat = chat;
+    console.log(chat);
     this.chatService.getChatRoom(this.chat.id).subscribe( room =>{
       this.conversacion = room;
       console.log('this.conversacion:',this.conversacion);
@@ -64,7 +76,35 @@ export class HomePage implements OnInit {
     setTimeout(()=>{
       this.content.scrollToBottom(300);
     },300)
+
+    this.patientid = chat.datos.patientid;
+    this.getDatosBasicos();
+   /*  this.getNotasPaciente(); */
+
   }
+  getDatosBasicos(){
+    const patientid = this.patientid;
+      this.datosBasicSrv.getDatosBasicos(patientid).subscribe((data:any) =>{
+        this.datosBasicos = data;
+        console.log('datos', this.datosBasicos);
+        this.datosBasicSrv.getDoagnosticoEmbarazo(patientid).subscribe((data:any)=>{
+          console.log('getDiagnosticoEmbarazo:', data);
+          this.fechaEmbarazo  = data.fecha_ultima_regla;
+          console.log(this.fechaEmbarazo);
+        })
+      })
+  }
+
+  getNotasPaciente(patientid, fechaini, fechafin){
+      const patienId = this.patientid;
+      const fechaIni = moment(this.patientid).format("YYYY/MM/DD");
+      const fechaFin = moment().format("YYYY/MM/DD");;
+      this.notasSrv.getNotas(patienId, fechaIni, fechaFin).subscribe((data:any)=>{
+        this.notasPaciente = data.encuentros;
+        console.log('thisnotaspaienter', this.notasPaciente)
+      })
+  }
+
 
   sendMessage(){
     const mensaje : message ={
@@ -153,4 +193,24 @@ export class HomePage implements OnInit {
     await popover.present();
   }
 
+
+  async openModalDataCita( ev: any, nota){
+    console.log(nota);
+    const popover = await this.popoverCtrl.create({
+        component: DatoscitasComponent,
+        event:ev,
+        componentProps:{
+          nota:nota
+        }
+    });
+    await popover.present()
+  }
+
+
+/*   async openPopoverDataCoach(ev:any){
+    const popoVer = await this.popoverCtrl.create({
+      component: DatosclaudiaComponent
+    });
+    await popoVer.present();
+  } */
 }

@@ -6,16 +6,26 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class NotesService {
-public SERVER = "https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/";
-apiUrl = `${this.SERVER}mama/faq?groupby=categoria`
 
-  constructor(public http:HttpClient) { }
+  public SERVER ="https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/mama/faq?&groupby=categoria&asarray=1";
+  apiUrl = `${this.SERVER}mama/faq?groupby=categoria`
+  apiUrl2 = `${this.SERVER}mama`
 
-  getNotes(){ 
+  constructor( private http:HttpClient) { }
+
+  getNotesForCategory(){
     return this.http.get(this.apiUrl).pipe(
-            map(data =>{
-                return data
-  })
+      map((resp:any)=>{
+        return resp
+      })
+    )
+  }
+
+  getAllNotes(){
+    return this.http.get(this.apiUrl2).pipe(
+      map((resp:any)=>{
+        return resp
+      })
     )
   }
 

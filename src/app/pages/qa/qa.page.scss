@@ -4,6 +4,10 @@
     font-size:1.2em;
     justify-content: center;
     align-items: center;
+    background:#F7FAFE;
+}
+ion-card-header{
+    color:#90A8BE!important;
 }
 ion-avatar{
     height: 40px;
@@ -11,6 +15,22 @@ ion-avatar{
     margin-right:20px;
 }
 mat-expansion-panel-header{
-    background:#10dc60;
+    background:#5BCEAE;
     color:#fff!important;
+}
+
+
+#positionFixed{
+    position: fixed;
+}
+#positionRight{
+    position: absolute;
+    right:0;
+}
+.title{
+    color:#3796F6;
+    font-weight: 400;
+}
+ion-title, ion-menu-button, ion-icon{
+    color:#90A8BE;
 }
