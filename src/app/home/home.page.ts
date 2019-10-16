@@ -9,7 +9,8 @@ import { NotasService } from '../services/notas.service';
 import * as moment from 'moment';
 import { DatoscitasComponent } from '../components/datoscitas/datoscitas.component';
 import { NoteComponent } from '../components/note/note.component';
-
+import { DatosclaudiaComponent } from '../components/datosclaudia/datosclaudia.component';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
   selector: 'app-home',
@@ -46,9 +47,14 @@ export class HomePage implements OnInit {
               public alert:AlertController,
               public datosBasicSrv: DatosBasicosService,
               public notasSrv: NotasService,
-              public popoverCtrl: PopoverController) {}
+              public popoverCtrl: PopoverController, 
+              public fcm: FCM) {}
 
   ngOnInit(){
+
+    this.fcm.getToken().then(token =>{
+      console.log('token dispositivo', token);
+    })
     this.chatPvr.getChatRooms().subscribe(chats =>{
      this.goalList  = chats;
      this.loadedGoalList = chats;
@@ -182,10 +188,11 @@ export class HomePage implements OnInit {
     await alert.present();
   } */
 
-  async showModal(chat){
+  async showModal(event, chat){
     console.log(chat);
     const popover = await this.popoverCtrl.create({
       component:NoteComponent,
+      event: event,
       componentProps:{
         chat:chat
       }
@@ -207,10 +214,10 @@ export class HomePage implements OnInit {
   }
 
 
-/*   async openPopoverDataCoach(ev:any){
+  async openPopoverDataCoach(ev:any){
     const popoVer = await this.popoverCtrl.create({
       component: DatosclaudiaComponent
     });
     await popoVer.present();
-  } */
+  }
 }

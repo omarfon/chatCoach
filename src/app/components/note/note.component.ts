@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChatsService } from 'src/app/chats.service';
+import { ChatsService, chat } from 'src/app/chats.service';
 import { popoverController } from '@ionic/core';
 import { PopoverController, NavController } from '@ionic/angular';
+import { CheckType } from '@angular/core/src/view';
 
 
 
@@ -13,6 +14,7 @@ import { PopoverController, NavController } from '@ionic/angular';
 })
 export class NoteComponent implements OnInit {
   @Input ('chat') chat;
+  public nombre ;
 
   constructor(public router: Router, 
               public chatSrv: ChatsService,
@@ -21,6 +23,7 @@ export class NoteComponent implements OnInit {
 
   ngOnInit() {
     console.log('chat en modal', this.chat);
+    this.nombre = this.chat.name;
   }
 
   sendNote(data){

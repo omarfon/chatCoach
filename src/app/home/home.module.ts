@@ -8,14 +8,14 @@ import { MaterialModule } from '../material.module';
 import { HomePage } from './home.page';
 import { ComponentsModule } from '../components/components.module';
 import { DatoscitasComponent } from '../components/datoscitas/datoscitas.component';
-/* import { DatosclaudiaComponent } from '../components/datosclaudia/datosclaudia.component'; */
+import { DatosclaudiaComponent } from '../components/datosclaudia/datosclaudia.component';
 import { NoteComponent } from '../components/note/note.component';
 
 
 @NgModule({
   entryComponents:[
  DatoscitasComponent,
-    /*    DatosclaudiaComponent, */
+    DatosclaudiaComponent,
     NoteComponent
   ],
   imports: [

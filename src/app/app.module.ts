@@ -20,6 +20,8 @@ import {AngularFireAuthModule} from '@angular/fire/auth'
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentsModule } from './components/components.module';
 
+import { FCM } from '@ionic-native/fcm/ngx';
+
 
 
 
@@ -42,6 +44,7 @@ import { ComponentsModule } from './components/components.module';
   providers: [
     StatusBar,
     SplashScreen,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
