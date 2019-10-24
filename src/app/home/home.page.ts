@@ -83,7 +83,7 @@ export class HomePage implements OnInit {
       this.content.scrollToBottom(300);
     },300)
 
-    this.patientid = chat.datos.patientid;
+    this.patientid = chat.data.patientid;
     this.getDatosBasicos();
    /*  this.getNotasPaciente(); */
 
