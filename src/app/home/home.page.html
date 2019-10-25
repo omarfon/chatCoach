@@ -40,6 +40,18 @@
               <ion-searchbar class="search" debounce="500" placeholder="buscar aviver" showcancelbutton=""
                 (ionInput)="filterList($event)">
               </ion-searchbar>
+              <button (click)="requestPushNotificationsPermission()">
+                  Enable notifications!
+                </button>
+          
+          
+                <button (click)="deleteToken()">
+                  Delete my token plz
+                </button>
+          
+                <button (click)="listen()">
+                  Get notified!
+                </button>
               <ion-slides [options]="slideOpts">
                 <ion-slide *ngFor="let chat of goalList">
                   <ion-row>
@@ -155,6 +167,7 @@
               </div>
             </ion-col>
             <ion-col offset="4" size="8" *ngIf="currentUser === mensaje.user" class="message my-message">
+                
               <b>{{mensaje.user}}</b> <br>
               <span>{{mensaje.content}}</span>
               <div class="time" text-right>

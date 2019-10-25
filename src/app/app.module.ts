@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import { environment, firebaseConfig } from '../environments/environment';
+import { environment } from '../environments/environment';
 import { ChatonlineComponent } from './chatonline/chatonline.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {AutosizeModule} from 'ngx-autosize';
@@ -22,23 +22,25 @@ import { ComponentsModule } from './components/components.module';
 
 import { FCM } from '@ionic-native/fcm/ngx';
 
-
-
+import { ServiceWorkerModule } from '@angular/service-worker';
+import {AngularFireMessagingModule} from '@angular/fire/messaging';
 
 @NgModule({
   declarations: [AppComponent, ChatonlineComponent],
   entryComponents: [ChatonlineComponent],
   imports: [BrowserModule, IonicModule.forRoot(), 
     AppRoutingModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireMessagingModule,
     FormsModule,
     AutosizeModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ComponentsModule,
+    ServiceWorkerModule.register('combined-sw.js', { enabled: environment.production }),
     MaterialModule],
   
   providers: [

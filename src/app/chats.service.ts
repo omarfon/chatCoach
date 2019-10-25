@@ -67,6 +67,9 @@ export class ChatsService {
     });
   }
 
+  sendNotification(){
+    this api
+  }
 
 
 }

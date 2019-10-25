@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChatsService, chat } from '../chats.service';
-import { ModalController, IonContent, AlertController, PopoverController } from '@ionic/angular';
+import { ModalController, IonContent, AlertController, PopoverController, ToastController } from '@ionic/angular';
 import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
 import { database } from 'firebase';
@@ -11,6 +11,9 @@ import { DatoscitasComponent } from '../components/datoscitas/datoscitas.compone
 import { NoteComponent } from '../components/note/note.component';
 import { DatosclaudiaComponent } from '../components/datosclaudia/datosclaudia.component';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { mergeMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-home',
@@ -48,6 +51,8 @@ export class HomePage implements OnInit {
               public datosBasicSrv: DatosBasicosService,
               public notasSrv: NotasService,
               public popoverCtrl: PopoverController, 
+              public afm:  AngularFireMessaging,
+              public toast: ToastController,
               public fcm: FCM) {}
 
   ngOnInit(){
@@ -219,5 +224,45 @@ export class HomePage implements OnInit {
       component: DatosclaudiaComponent
     });
     await popoVer.present();
+  }
+
+  requestPushNotificationsPermission() {
+    const uid = localStorage.getItem('uid');
+    this.afm.requestToken
+      .subscribe(
+        (token) => {
+          this.makeToast();
+          console.log('Permission granted! Save to the server!', token);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+
+  }
+
+  deleteToken() {
+    this.afm.getToken
+      .pipe(mergeMap(token => this.afm.deleteToken(token)))
+      .subscribe(
+        (token) => { console.log('Deleted!'); },
+      );
+  }
+
+  listen() {
+    console.log('escuchando');
+    this.afm.messages
+    .subscribe((message) => { console.log('m', message); });
+  }
+
+  async makeToast(){
+    const toast = await this.toast.create({
+      message: "has habilitado las notificaciones de tu coach",
+      duration: 5000,
+      position: 'top',
+      showCloseButton: true,
+      closeButtonText: 'Entiendo'
+    });
+    toast.present();
   }
 }
