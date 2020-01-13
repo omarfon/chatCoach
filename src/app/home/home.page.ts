@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChatsService, chat } from '../chats.service';
 import { ModalController, IonContent, AlertController, PopoverController, ToastController } from '@ionic/angular';
-import { ChatonlineComponent } from '../chatonline/chatonline.component';
 import { message, mynote } from '../models/message';
-import { database } from 'firebase';
 import { DatosBasicosService } from '../services/datos-basicos.service';
 import { NotasService } from '../services/notas.service';
 import * as moment from 'moment';
@@ -13,6 +11,8 @@ import { DatosclaudiaComponent } from '../components/datosclaudia/datosclaudia.c
 import { FCM } from '@ionic-native/fcm/ngx';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { mergeMap } from 'rxjs/operators';
+import { NotificationsService } from '../services/notifications.service';
+
 
 
 @Component({
@@ -53,13 +53,14 @@ export class HomePage implements OnInit {
               public popoverCtrl: PopoverController, 
               public afm:  AngularFireMessaging,
               public toast: ToastController,
+              public notiSrv: NotificationsService,
               public fcm: FCM) {}
 
   ngOnInit(){
 
-    this.fcm.getToken().then(token =>{
-      console.log('token dispositivo', token);
-    })
+    this.requestPushNotificationsPermission();
+    this.listen();
+    
     this.chatPvr.getChatRooms().subscribe(chats =>{
      this.goalList  = chats;
      this.loadedGoalList = chats;
@@ -71,6 +72,7 @@ export class HomePage implements OnInit {
      }
     });
     console.log(new Date()); 
+
   }
 
   initializeItems():void {
@@ -125,8 +127,16 @@ export class HomePage implements OnInit {
       user: 'Claudia',
     }
     this.chatService.sendMessageToFirebase(mensaje, this.chat.id );
+    const patienId = this.conversacion.data.patientId;
+    const texto = this.msg;
+    if(patienId && texto){
+      this.notiSrv.sendNotification(patienId, texto).subscribe(data =>{
+        console.log('send notification',data);
+      }),err=>{
+        console.log('err', err);
+      }
+    }
     this.msg = "";
-
     setTimeout(()=>{
       this.content.scrollToBottom(300);
     },500)
@@ -143,6 +153,7 @@ export class HomePage implements OnInit {
     this.obtenerConversacion(chat);
     this.note ="";
   }
+
 
   filterList(evt:any){
     /* console.log(evt); */
@@ -233,6 +244,10 @@ export class HomePage implements OnInit {
         (token) => {
           this.makeToast();
           console.log('Permission granted! Save to the server!', token);
+          const uid = localStorage.getItem('uid');
+          if(token && uid){
+            this.chatPvr.registerToken(token, uid);
+          }
         },
         (error) => {
           console.error(error);
@@ -252,7 +267,10 @@ export class HomePage implements OnInit {
   listen() {
     console.log('escuchando');
     this.afm.messages
-    .subscribe((message) => { console.log('m', message); });
+    .subscribe((message) => { 
+      console.log('m', message); 
+      this.mensajeRecibido();
+    });
   }
 
   async makeToast(){
@@ -263,6 +281,16 @@ export class HomePage implements OnInit {
       showCloseButton: true,
       closeButtonText: 'Entiendo'
     });
+    toast.present();
+  }
+
+  async mensajeRecibido(){
+    const toast = await this.toast.create({
+      message:"Tu coach te esta escribiendo",
+      duration: 5000,
+      position: "top",
+      showCloseButton: true,
+    })
     toast.present();
   }
 }

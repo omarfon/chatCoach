@@ -5,6 +5,8 @@ import { AlertController } from '@ionic/angular';
 import { ChatsService } from '../../chats.service';
 import { UserService } from '../../services/user.service';
 
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -59,7 +61,11 @@ export class LoginPage implements OnInit {
       if(token){
         this.chatSrv.loginWithToken(token).then((result:any) =>{
           console.log(result);
-          localStorage.setItem('uid', result.user.uid )
+          localStorage.setItem('uid', result.user.uid );
+          const uid = localStorage.getItem('uid');
+          if(uid){
+            this.chatSrv.sendDataBasic();
+          }
           this.routes.navigate(['home']);
         });
       }

@@ -8,8 +8,8 @@ import { map } from 'rxjs/operators';
 })
 export class NotificationsService {
 
-  const apiRegister ="https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/auth/fcm-register"
-  const apiNoti = "https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/auth/fcm-notify?patient_id=2281";
+  public apiRegister ="https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/auth/fcm-register"
+  public apiNoti = "https://dappapache02.eastus.cloudapp.azure.com/middleware2-copy/api/v2/auth/fcm-notify?patient_id=";
 
   constructor(public http: HttpClient) { }
 
@@ -26,10 +26,15 @@ export class NotificationsService {
   }
 
 
-  sendNotification(id, texto){
-    const params = {texto: texto};
-      this.http.post(`this.apiNoti/${id}`, {params})
-          return           
+  sendNotification(patienId, texto){
+    const authorization = localStorage.getItem('authorization');
+    let headers = new HttpHeaders({"Authorization": authorization});
+    const params = {text: texto};
+      return this.http.post(`${this.apiNoti}${patienId}`, params, {headers}).pipe(
+        map(resp =>{
+          return resp;
+        })
+      )          
   }
 
 }

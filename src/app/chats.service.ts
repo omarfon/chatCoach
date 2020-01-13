@@ -6,6 +6,7 @@ import { message, mynote } from './models/message';
 import { firestore } from 'firebase';
 import { Observable } from 'rxjs';
 
+
 export interface chat {
   description:string
   name: string
@@ -67,9 +68,32 @@ export class ChatsService {
     });
   }
 
-  sendNotification(){
-    this api
-  }
+ sendDataBasic(){
+  const id = localStorage.getItem('id');
+  const uid = localStorage.getItem('uid');
+  const email = localStorage.getItem('email');
+
+  this.db.collection('coaches').doc(uid).set({
+   name: localStorage.getItem('name'),
+   uid: uid,
+   role: "user",
+   fcmTokens:"",
+   data:
+   {
+     email: email,
+    }
+  },{merge:true})
+  .catch(err =>{
+    console.log(err, 'error de no escritura');
+  })
+ }
+
+
+ registerToken(token, uid){
+  this.db.collection('coaches').doc(uid).update({
+    fcmTokens:firestore.FieldValue.arrayUnion(token),
+  })
+ }
 
 
 }
